@@ -1,0 +1,16 @@
+---------------------------------------------------------
+      o--o       o o      o             o--o  o  o o--o  
+      |   |      | |      |  o          |   | |  | |   | 
+o   o O--o  o  o | | o-o -o-   o-o  o-o O--o  O--O O--o  
+ \ /  |   | |  | | | |-'  |  | |  |     |     |  | |     
+  o   o--o  o--o o o o-o  o  | o  o     o     o  o o     
+---------------------------------------------------------
+
+This is intended for LEARNING PURPOSES ONLY, NOT TO SPAM FORUMS!
+
+This class provides easy login/post/reputation/signature functions for vBulletin forums,
+You may use it however you wish, but I take no responsibility for your actions, or actions of others.
+
+TODO:
+- Module system, for support of like the "Thanks" plugin without providing the function and just making it not work
+- ???
