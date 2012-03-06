@@ -11,6 +11,12 @@ This is intended for LEARNING PURPOSES ONLY, NOT TO SPAM FORUMS!
 This class provides easy login/post/reputation/signature functions for vBulletin forums,
 You may use it however you wish, but I take no responsibility for your actions, or actions of others.
 
+Modules included:
+	- vbshout_module.php - For forums using InfernoShout
+	- usercp_module.php - For all forums, used to update signatures/set usergroups
+	- thanks_module.php - For forums with the 'thanks' mod installed
+
+To disable any modules, simply create a folder called "disabled" and move them into there.
+
 TODO:
-- Module system, for support of like the "Thanks" plugin without providing the function and just making it not work
 - ???
