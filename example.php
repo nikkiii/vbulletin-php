@@ -26,32 +26,38 @@ if(!$vbff->login("username", "password")) {
 }
 echo "Logged in!\n";
 
-//Set your signature!
-$vbff->setSignature("This was set by vBulletin-PHP!");
-
 //Can have up to the max forum limit of tags.
 $turl = $vbff->postThread(1, "Subject", "Message here", array('tag1', 'tag2'));
 
 //Give reputation to a post
 $vbff->reputation(1, "Repped by vBulletin-PHP");
 
-//Give a 'thanks' to a post, requires the thanks mod
-$vbff->thankPost(1);
-
-//If you have more than 1 usergroup, you can use this to set them!
-$vbff->setUsergroup(2);
-
-//using vBShoutFunctions
-$vbsf = new vBShoutFunctions($vbff);
+//using the vbshout module
 
 //Send a shout!
-$vbsf->send_shout("Hello world!");
+$vbff->vbshout->send_shout("Hello world!");
+
+//Get active users!
+$users = $vbff->vbshout->fetch_users();
 
 //Get the shouts!
-$shouts = $vbsf->fetch_shouts();
+$shouts = $vbff->vbshout->fetch_shouts();
 foreach($shouts as $shout) {
 	//Do whatever!
 }
+
+//using the usercp module
+
+//Set your signature!
+$vbff->usercp->setSignature("This was set by vBulletin-PHP!");
+
+//If you have more than 1 usergroup, you can use this to set them!
+$vbff->usercp->setUsergroup(2);
+
+//using the thanks module
+
+//Give a 'thanks' to a post, requires the thanks mod
+$vbff->thanks->thankPost(1);
 
 //There will be more!
 ?>

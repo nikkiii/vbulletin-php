@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
+require_once "modules/vBulletinModule.php";
+
 /**
  * A simple class which contains POST/GET/login functions for a vBulletin forum
  * @author Nikki
@@ -38,6 +40,7 @@ class vBForumFunctions {
 		$this->url = $url;
 		$this->loggedin = file_exists($cookiefile); //TODO some kind of verification of the cookie file...
 		$this->cookiefile = $cookiefile;
+		$this->load_modules();
 	}
 	
 	/**
@@ -85,6 +88,25 @@ class vBForumFunctions {
 	}
 	
 	/**
+	 * Load the modules!
+	 */
+	public function load_modules($dir="modules") {
+		$dh  = opendir($dir);
+		while (false !== ($filename = readdir($dh))) {
+			if(is_dir($dir . $filename)) continue; //Disabled directory, misc directories...
+			if(stristr($filename, "_module.php")) {
+				$modname = substr($filename, 0, strrpos($filename, "_"));
+				if(!isset($this->$modname)) {
+					require_once $dir . "/" . $filename;
+					$classname = "Module_$modname";
+					$this->$modname = new $classname($this);
+				}
+			}
+		}
+		closedir($dh);
+	}
+	
+	/**
 	 * Login, simple isn't it?
 	 */
 	public function login($username, $password) {
@@ -112,7 +134,7 @@ class vBForumFunctions {
 	/**
 	 * Add reputation to a post, with an optional comment/derep if applicable
 	 */
-	public function reputaton($postid, $comment="", $neg=false) {
+	public function reputation($postid, $comment="", $neg=false) {
 		if(empty($this->securitytoken)) {
 			return false;
 		}
@@ -124,48 +146,6 @@ class vBForumFunctions {
 		$this->request("reputation.php?do=addreputation&p=$postid", $postfields);
 		//Heh
 		return true;
-	}
-	
-	/**
-	 * Thank a post, works even when you don't have access to that section
-	 */
-	public function thankPost($postid) {
-		if(empty($this->securitytoken)) {
-			return false;
-		}
-		$postfields = $this->getParams();
-		$postfields['do'] = "post_thanks_add";
-		$postfields['p'] = $postid;
-		$this->request("post_thanks.php", $postfields);
-		//If nothing went wrong bla bla bla
-		return true;
-	}
-	
-	/**
-	 * Set your display usergroup
-	 */
-	public function setUsergroup($usergroupid) {
-		if(empty($this->securitytoken)) {
-			return false;
-		}
-		$postfields = $this->getParams();
-		$postfields['do'] = "updatedisplaygroup";
-		$postfields['usergroupid'] = $usergroupid;
-		$this->request("profile.php", $postfields);
-	}
-	
-	/**
-	 * Set your signature
-	 */
-	public function setSignature($contents) {
-		if(empty($this->securitytoken)) {
-			return false;
-		}
-		$postfields = $this->getParams();
-		$postfields['do'] = "updatesignature";
-		$postfields['vB_Editor_001_mode'] = 'wysiwyg';
-		$postfields['message'] = $contents;
-		$this->request("profile.php?do=updatesignature", $postfields);
 	}
 	
 	/**
@@ -216,7 +196,7 @@ class vBForumFunctions {
 	/**
 	 * Get the basic params, securitytoken is used in most functions
 	 */
-	private function getParams() {
+	public function getParams() {
 		return array("securitytoken" => $this->securitytoken);
 	}
 }
