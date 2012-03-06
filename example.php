@@ -35,13 +35,13 @@ $vbff->reputation(1, "Repped by vBulletin-PHP");
 //using the vbshout module
 
 //Send a shout!
-$vbff->vbshout->send_shout("Hello world!");
+$vbff->vbshout->sendShout("Hello world!");
 
 //Get active users!
-$users = $vbff->vbshout->fetch_users();
+$users = $vbff->vbshout->fetchUsers();
 
 //Get the shouts!
-$shouts = $vbff->vbshout->fetch_shouts();
+$shouts = $vbff->vbshout->fetchShouts();
 foreach($shouts as $shout) {
 	//Do whatever!
 }

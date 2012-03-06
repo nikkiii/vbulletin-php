@@ -90,7 +90,7 @@ class vBForumFunctions {
 	/**
 	 * Load the modules!
 	 */
-	public function load_modules($dir="modules") {
+	public function loadModules($dir="modules") {
 		$dh  = opendir($dir);
 		while (false !== ($filename = readdir($dh))) {
 			if(is_dir($dir . $filename)) continue; //Disabled directory, misc directories...

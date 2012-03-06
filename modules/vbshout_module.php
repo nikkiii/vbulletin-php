@@ -26,7 +26,7 @@ class Module_vbshout extends vBulletinModule {
 	/**
 	 * Fetch the current shouts, some shoutboxes may have XML around it... no idea how this would work
 	 */
-	public function fetch_shouts() {
+	public function fetchShouts() {
 		$shoutdata = $this->request($this->shoutfile, array("do" => "messages"));
 		$shoutlist = explode("</div>", $shoutdata);
 		
@@ -48,7 +48,7 @@ class Module_vbshout extends vBulletinModule {
 	 * Note: NOT GUARANTEED TO GET THE USERS CORRECTLY!
 	 * Different forums have different ranks, and different methods of doing rank colors/etc
 	 */
-	public function fetch_users() {
+	public function fetchUsers() {
 		global $ranks;
 		$userdata = $this->request("infernoshout.php", array("do" => "userlist"));
 		$userdata = substr($userdata, strpos($userdata, "<div>")+5);
@@ -66,7 +66,7 @@ class Module_vbshout extends vBulletinModule {
 	/**
 	 * Send a shout
 	 */
-	public function send_shout($shout) {
+	public function sendShout($shout) {
 		return $this->request("infernoshout.php", array("do" => "shout", "message" => $shout));
 	}
 }
