@@ -18,7 +18,7 @@
  */
  
 /**
- * A simple class which contains methods for interacting with the Infernoshout vb shoutbox
+ * A module which contains methods for interacting with the Infernoshout vb shoutbox
  * @author Nikki
  */
 class Module_vbshout extends vBulletinModule {
@@ -67,7 +67,7 @@ class Module_vbshout extends vBulletinModule {
 	 * Send a shout
 	 */
 	public function sendShout($shout) {
-		return $this->request("infernoshout.php", array("do" => "shout", "message" => $shout));
+		return ($this->request("infernoshout.php", array("do" => "shout", "message" => $shout)) == "completed");
 	}
 }
 ?>

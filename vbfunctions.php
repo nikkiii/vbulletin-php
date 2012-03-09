@@ -40,7 +40,7 @@ class vBForumFunctions {
 		$this->url = $url;
 		$this->loggedin = file_exists($cookiefile); //TODO some kind of verification of the cookie file...
 		$this->cookiefile = $cookiefile;
-		$this->load_modules();
+		$this->loadModules();
 	}
 	
 	/**
@@ -124,73 +124,11 @@ class vBForumFunctions {
 		$this->loggedin = (stristr($resp, "Invalid") === false);
 		
 		if(preg_match("/var SECURITYTOKEN = \"(.*?)\"/", $resp, $t)) {
-			$this->securitytoken = $t[1];
+			$this->securitytoken = trim($t[1]);
 		} else {
 			echo "WARNING: No security token\n";
 		}
 		return $this->loggedin;
-	}
-	
-	/**
-	 * Add reputation to a post, with an optional comment/derep if applicable
-	 */
-	public function reputation($postid, $comment="", $neg=false) {
-		if(empty($this->securitytoken)) {
-			return false;
-		}
-		$postfields = $this->getParams();
-		$postfields['do'] = "addreputation";
-		$postfields['p'] = $postid;
-		$postfields['reputation'] = $neg ? "neg" : "pos";
-		$postfields['reason'] = $commennt;
-		$this->request("reputation.php?do=addreputation&p=$postid", $postfields);
-		//Heh
-		return true;
-	}
-	
-	/**
-	 * Post a new thread
-	 * @param forumid  The forum id
-	 * @param title  The thread title
-	 * @param message  The message
-	 * @param tags  The thread tags
-	 */
-	public function postThread($forumid, $title, $message, $tags=array()) {
-		if(empty($this->securitytoken)) {
-			return false;
-		}
-		$postfields = $this->getParams();
-		$postfields['do'] = "postthread";
-		$postfields['f'] = $forumid;
-		$postfields['subject'] = $title;
-		$postfields['message'] = $message;
-		$postfields['vB_Editor_001_mode'] = 'wysiwyg';
-		$postfields['taglist'] = implode(",", $tags);
-		$resp = $this->request("newthread.php", $postfields, false, true);
-		if(preg_match("#Location:\s*(.*)#", $resp['header'], $matches)) {
-			return trim($matches[1]);
-		}
-		return false;
-	}
-	
-	/**
-	 * Post a reply on a thread
-	 * @param thread  The thread id
-	 * @param reply  The reply
-	 */
-	public function postReply($thread, $reply) {
-		if(empty($this->securitytoken)) {
-			return false;
-		}
-		$postfields = $this->getParams();
-		$postfields['do'] = "postreply";
-		$postfields['t'] = $thread;
-		$postfields['message'] = $reply;
-		$resp = $this->request("newreply.php", $postfields, false, true);
-		if(preg_match("#Location:\s*(.*)#", $resp['header'], $matches)) {
-			return trim($matches[1]);
-		}
-		return false;
 	}
 	
 	/**

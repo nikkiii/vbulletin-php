@@ -28,8 +28,8 @@ class vBulletinModule {
 	/**
 	 * Lets use use $this->request in modules
 	 */
-	public function request($page, $data=array(), $overridelogin=false, $info=false) {
-		return $this->vbff->request($page, $data, $overridelogin, $info);
+	public function request($page, $data=array(), $info=false) {
+		return $this->vbff->request($page, $data, false, $info);
 	}
 	
 	/**

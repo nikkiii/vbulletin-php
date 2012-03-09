@@ -17,7 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A module which contains methods for interacting with the user control panel of vBulletin
+ * Note: This does not have support for editing options/details, they are much harder to do...
+ * @author Nikki
+ */
 class Module_usercp extends vBulletinModule {
+
 	/**
 	 * Set your display usergroup
 	 */
@@ -35,7 +41,22 @@ class Module_usercp extends vBulletinModule {
 		$postfields = $this->getParams();
 		$postfields['do'] = "updatesignature";
 		$postfields['message'] = $contents;
-		$this->request("profile.php?do=updatesignature", $postfields);
+		$this->request("profile.php", $postfields);
+	}
+	
+	/**
+	 * Set your avatar
+	 */
+	public function setAvatar($avatarurl) {
+		$postfields = $this->getParams();
+		$postfields['do'] = "updateavatar";
+		if(empty($avatarurl)) {
+			$postfields['avatarid'] = -1;
+		} else {
+			$postfields['avatarid'] = 0;
+			$postfields['avatarurl'] = $avatarurl;
+		}
+		$this->request("profile.php", $postfields);
 	}
 }
 ?>

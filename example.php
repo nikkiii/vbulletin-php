@@ -26,11 +26,31 @@ if(!$vbff->login("username", "password")) {
 }
 echo "Logged in!\n";
 
-//Can have up to the max forum limit of tags.
-$turl = $vbff->postThread(1, "Subject", "Message here", array('tag1', 'tag2'));
+//using the posts module
+
+//Can have up to the max forum limit of tags, or remove the last argument for no tags.
+$turl = $vbff->posts->postThread(1, "Subject", "Message here", array('tag1', 'tag2'));
+
+//Simple, 2 arguments, can use the last argument if you want a title
+$vbff->posts->postReply(1, "Reply!");
+
+// using the members module
 
 //Give reputation to a post
-$vbff->reputation(1, "Repped by vBulletin-PHP");
+$vbff->members->reputation(1, "Repped by vBulletin-PHP");
+
+//Send a visitor message to a member
+$vbff->members->sendVisitorMessage(1, "Message!");
+
+//Send a private message to a member (using names)
+$vbff->members->sendPrivateMessage("Member Name", "Subject", "Message");
+
+//Send a private message to multiple members (No userids unless you fetch them yourself)
+$vbff->members->sendPrivateMessage(array("Member1", "Member2"), "Subject", "Message");
+
+//Or use the userid
+$vbff->members->sendPrivateMessage(1, "Subject", "Message");
+
 
 //using the vbshout module
 
@@ -53,6 +73,12 @@ $vbff->usercp->setSignature("This was set by vBulletin-PHP!");
 
 //If you have more than 1 usergroup, you can use this to set them!
 $vbff->usercp->setUsergroup(2);
+
+//Set your avatar (URL only)
+$vbff->usercp->setAvatar("Avatar URL");
+
+//Remove your avatar, also works with setAvatar("") or setAvatar(0)
+$vbff->usercp->setAvatar(false);
 
 //using the thanks module
 

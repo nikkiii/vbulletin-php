@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A module which contains methods for interacting with the post thanks hack
+ * @author Nikki
+ */
 class Module_thanks extends vBulletinModule {
 	
 	/**
@@ -25,6 +29,7 @@ class Module_thanks extends vBulletinModule {
 	public function thankPost($postid) {
 		$postfields = $this->getParams();
 		$postfields['do'] = "post_thanks_add";
+		$postfields['using_ajax'] = 1;
 		$postfields['p'] = $postid;
 		$this->request("post_thanks.php", $postfields);
 		//If nothing went wrong bla bla bla
