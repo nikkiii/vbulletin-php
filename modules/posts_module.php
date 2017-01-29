@@ -66,5 +66,18 @@ class Module_posts extends vBulletinModule {
 		}
 		return false;
 	}
+
+        /**
+         * Delete a post
+         * @param postID The post id
+         */
+        public function deletePost($postID) {
+                $postfields = $this->getParams();
+                $postfields['do'] = "deletepost";
+                $postfields['postid'] = $postID;
+                $postfields['deletepost'] = "delete";
+                $rest = $this->request("editpost.php", $postfields, true);
+                return false;
+        }
 }
 ?>
